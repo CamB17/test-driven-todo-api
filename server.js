@@ -60,8 +60,8 @@ app.get('/api/todos', function index(req, res) {
    /*This endpoint will add a todo to our "database"
      and respond with the newly created todo.*/
     var id = req.params.id+1;
-    todos.push(request.body);
-   res.json(todos[id]);
+    todos.push(req.body);
+   res.send({todos: todos});
   
     
     });
@@ -82,15 +82,15 @@ app.get('/api/todos/:id', function show(req, res) {
 //    * id specified in the route parameter (:id) and respond
 //    * with the newly updated todo.
 var id = req.params.id;
+    for(i = 0; i <id.length; i++) {
+
     if(req.body.task) todos.task = req.body.task;
     if(req.body.description) todos.description = req.body.description;
 
-    //todos.save(function(error) {
-      //if(error) res.json({messsage: 'Could not update quote b/c:' + error});
-
       res.json(todos[id]);
-    });
-  //});
+    }
+  });
+  
 
 
 
