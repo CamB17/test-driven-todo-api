@@ -56,15 +56,15 @@ app.get('/api/todos', function index(req, res) {
 });
 
 //Create
-// app.post('/api/todos', function create(req, res) {
-//    This endpoint will add a todo to our "database"
-//     and respond with the newly created todo.
-//    var id = req.params.id+1;
-//    todos.push(request.body);
-//    res.json(todos[id]);
+ app.post('/api/todos', function create(req, res) {
+   /*This endpoint will add a todo to our "database"
+     and respond with the newly created todo.*/
+    var id = req.params.id+1;
+    todos.push(request.body);
+   res.json(todos[id]);
   
     
-//    });
+    });
 
 //Show
 app.get('/api/todos/:id', function show(req, res) {
@@ -72,18 +72,27 @@ app.get('/api/todos/:id', function show(req, res) {
   /* This endpoint will return a single todo with the
    * id specified in the route parameter (:id)
    */
-  
   res.send(todos[id]);
   
 });
 
 
-app.put('/api/todos/:id', function update(req, res) {
-  /* This endpoint will update a single todo with the
-   * id specified in the route parameter (:id) and respond
-   * with the newly updated todo.
-   */
-});
+ app.put('/api/todos/:id', function update(req, res) {
+//    This endpoint will update a single todo with the
+//    * id specified in the route parameter (:id) and respond
+//    * with the newly updated todo.
+var id = req.params.id;
+    if(req.body.task) todos.task = req.body.task;
+    if(req.body.description) todos.description = req.body.description;
+
+    //todos.save(function(error) {
+      //if(error) res.json({messsage: 'Could not update quote b/c:' + error});
+
+      res.json(todos[id]);
+    });
+  //});
+
+
 
 app.delete('/api/todos/:id', function destroy(req, res) {
   /* This endpoint will delete a single todo with the
