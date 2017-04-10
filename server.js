@@ -44,29 +44,30 @@ app.get('/', function homepage(req, res) {
  * ORDER THAT THE TESTS DICTATE.
  */
 
+//GET search
 app.get('/api/todos/search', function search(req, res) {
   /* This endpoint responds with the search results from the
    * query in the request. COMPLETE THIS ENDPOINT LAST.
    */
 });
 
+//GET index
 app.get('/api/todos', function index(req, res) {
   //This endpoint responds with all of the todos
    res.json({todos: todos});
 });
 
-//Create
+//Post create
  app.post('/api/todos', function create(req, res) {
+   var id = req.params.id+1;
    /*This endpoint will add a todo to our "database"
      and respond with the newly created todo.*/
-    var id = req.params.id+1;
-    todos.push(req.body);
-   res.send({todos: todos});
+   res.send({todos: todos[id]});
   
     
-    });
+});
 
-//Show
+//GET show
 app.get('/api/todos/:id', function show(req, res) {
   var id = req.params.id-1;
   /* This endpoint will return a single todo with the
@@ -76,29 +77,31 @@ app.get('/api/todos/:id', function show(req, res) {
   
 });
 
-
+//PUT update
  app.put('/api/todos/:id', function update(req, res) {
 //    This endpoint will update a single todo with the
 //    * id specified in the route parameter (:id) and respond
 //    * with the newly updated todo.
-var id = req.params.id;
-    for(i = 0; i <id.length; i++) {
+  var id = req.params.id;
+    //for(i = 0; i <id.length; i++) {
 
     if(req.body.task) todos.task = req.body.task;
     if(req.body.description) todos.description = req.body.description;
 
-      res.json(todos[id]);
-    }
-  });
+      res.json({todos: todos[id]});
+    //}
+});
   
 
 
-
+//Delete
 app.delete('/api/todos/:id', function destroy(req, res) {
   /* This endpoint will delete a single todo with the
    * id specified in the route parameter (:id) and respond
    * with deleted todo.
    */
+//    var id = req.params.id;
+//     res.json(todos[id]);
 });
 
 /**********
