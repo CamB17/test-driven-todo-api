@@ -53,27 +53,41 @@ app.get('/api/todos/search', function search(req, res) {
 
 //GET index
 app.get('/api/todos', function index(req, res) {
-  //This endpoint responds with all of the todos
-   res.json({todos: todos});
+   //This endpoint responds with all of the todos
+    res.json({todos: todos});
 });
 
 //Post create
+/*This endpoint will add a todo to our "database"
+     and respond with the newly created todo.*/
  app.post('/api/todos', function create(req, res) {
    var id = req.params.id+1;
-   /*This endpoint will add a todo to our "database"
-     and respond with the newly created todo.*/
-   res.send({todos: todos[id]});
-  
-    
+   
+   var newTodo = req.body;
+      if ( todos.length > 0) {
+       // set newTodo an id at end of the array
+        newTodo._id = todos[todos.length -1]._id + 1;
+      } else {
+        //if array is emopty set id to one
+        newTodo._id = 1;
+      }
+      //push new todo to array
+      todos.push(newTodo);
+      res.json(newTodo);   
 });
 
 //GET show
-app.get('/api/todos/:id', function show(req, res) {
-  var id = req.params.id-1;
-  /* This endpoint will return a single todo with the
+/* This endpoint will return a single todo with the
    * id specified in the route parameter (:id)
    */
-  res.send(todos[id]);
+app.get('/api/todos/:id', function show(req, res) {
+  var todoId = parseInt(req.params.id);
+  
+  var newTodo = todos.filter(function (todo) {
+    return todo._id == todoId;
+  })[0];
+  
+  res.json(newTodo);
   
 });
 
@@ -83,7 +97,6 @@ app.get('/api/todos/:id', function show(req, res) {
 //    * id specified in the route parameter (:id) and respond
 //    * with the newly updated todo.
   var id = req.params.id;
-    //for(i = 0; i <id.length; i++) {
 
     if(req.body.task) todos.task = req.body.task;
     if(req.body.description) todos.description = req.body.description;
@@ -100,8 +113,11 @@ app.delete('/api/todos/:id', function destroy(req, res) {
    * id specified in the route parameter (:id) and respond
    * with deleted todo.
    */
-//    var id = req.params.id;
-//     res.json(todos[id]);
+    //add -1 to id for deletion
+    var id = req.params.id -1;
+    //use splice() to remove an existing element
+    res.json(todos.splice([id], 1));
+    res.end();
 });
 
 /**********
